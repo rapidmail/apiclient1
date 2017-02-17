@@ -1,0 +1,18 @@
+{
+  "name": "rapidmail/apiclient1",
+  "description": "client for rapidmail Newsletter software API",
+  "license": "LGPL",
+  "authors": [
+    {
+      "name": "rapidmail GmbH"
+    }
+  ],
+  "require": {
+    "php": "5.*"
+  },
+  "autoload": {
+    "classmap": [
+      "src/"
+    ]
+  }
+}
