@@ -1,3 +1,6 @@
+## [1.8.1] 2017-02-15
+* added optional parameter for "domain" to `add_mailing()`
+
 ## [1.8.0] 2015-04-08
 * added optional parameters for "ecg" and "robinson" list to add_mailing()
 * placed optional parameters "charset" and "draft" together with "ecg" and "robinson" into new settings array within add_mailing()

@@ -24,12 +24,12 @@
      *
      * PHP client class for api
      *
-     * @version 1.8
+     * @version 1.8.1
      * @license LGPL (http://www.gnu.org/licenses/lgpl.html)
      */
     class apiclient {
 
-        const VERSION = '1.8';
+        const VERSION = '1.8.1';
 
         const HOST = 'api.emailsys.net';
 
@@ -334,6 +334,11 @@
                 $parameters['ecg'] = $settings['ecg'];
             }
 
+            if (!empty($settings['domain'])) {
+                utils::check_string($settings['domain'], 'domain', false);
+                $parameters['domain'] = $settings['domain'];
+            }
+
             $data = $this->api_call('mailing_new', $parameters, self::TRANSFER_METHOD_POST);
 
             return $data['api_data']['mailing_id'];
@@ -439,12 +444,12 @@
                 }
 
                 $header = 'GET ' . $url . ' HTTP/1.0' . "\r\n" .
-                    'Host: ' . self::HOST . "\r\n\r\n";
+                          'Host: ' . self::HOST . "\r\n\r\n";
 
             } else {
 
                 $header = 'POST ' . $url . ' HTTP/1.0' . "\r\n" .
-                    'Host: ' . self::HOST . "\r\n";
+                          'Host: ' . self::HOST . "\r\n";
 
                 $boundary = md5(microtime() + (rand(0, 1) * 100));
 
@@ -498,7 +503,7 @@
                 $data .= '--' . $boundary . '--' . "\r\n";
 
                 $header .= 'Content-Type: multipart/form-data; boundary=' . $boundary . "\r\n" .
-                    'Content-Length: ' . strlen($data) . "\r\n\r\n";
+                           'Content-Length: ' . strlen($data) . "\r\n\r\n";
 
             }
 
