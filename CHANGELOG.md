@@ -1,3 +1,7 @@
+## [1.8.2] 2017-03-29
+* Update composer.json to support PHP7
+
+
 ## [1.8.1] 2017-02-15
 * added optional parameter for "domain" to `add_mailing()`
 
