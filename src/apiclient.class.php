@@ -24,12 +24,12 @@
      *
      * PHP client class for api
      *
-     * @version 1.8.1
+     * @version 1.8.3
      * @license LGPL (http://www.gnu.org/licenses/lgpl.html)
      */
     class apiclient {
 
-        const VERSION = '1.8.2';
+        const VERSION = '1.8.3';
 
         const HOST = 'api.emailsys.net';
 
@@ -71,56 +71,56 @@
         /**
          * Response type ok
          *
-         * @var const
+         * @var string
          */
         const RESPONSE_TYPE_OK = 'ok';
 
         /**
          * Response type error
          *
-         * @var const
+         * @var string
          */
         const RESPONSE_TYPE_ERROR = 'error';
 
         /**
          * Transfer method get
          *
-         * @var const
+         * @var string
          */
         const TRANSFER_METHOD_GET = 'GET';
 
         /**
          * Transfer method post
          *
-         * @var const
+         * @var string
          */
         const TRANSFER_METHOD_POST = 'POST';
 
         /**
          * Recipient status active
          *
-         * @var const
+         * @var string
          */
         const RECIPIENT_STATUS_ACTIVE = 'active';
 
         /**
          * Recipient status bounced
          *
-         * @var const
+         * @var string
          */
         const RECIPIENT_STATUS_BOUNCED = 'bounced';
 
         /**
          * Recipient status deleted
          *
-         * @var const
+         * @var string
          */
         const RECIPIENT_STATUS_DELETED = 'deleted';
 
         /**
          * Recipient status new
          *
-         * @var const
+         * @var string
          */
         const RECIPIENT_STATUS_NEW = 'new';
 
@@ -130,7 +130,8 @@
          * @param integer $node_id Node id
          * @param integer $recipientlist_id Recipient list id
          * @param string $apikey Api key for authentication (API-Schlüssel)
-         * @return void
+         * @param bool $use_ssl Whether to use SSL or not
+         * @param bool $debug_mode Use debug mode
          */
         public function __construct($node_id, $recipientlist_id, $apikey, $use_ssl = true, $debug_mode = false) {
 
@@ -166,6 +167,7 @@
          * Get all recipients from current recipient list
          *
          * @param string $status Status
+         * @param array $fields
          * @return array
          */
         public function get_recipients($status = self::RECIPIENT_STATUS_ACTIVE, $fields = array()) {
@@ -212,6 +214,7 @@
         /**
          * Add recipient to current recipient list
          *
+         * @param string $email E-Mail-Address of recipient to add
          * @param array $recipient_data Recipient data, see documentation for details
          * @return array
          */
@@ -252,7 +255,8 @@
          * Delete recipient
          *
          * @param string $email E-Mail-Address of recipient to delete
-         * @param boolean $send_goodbye
+         * @param string $send_goodbye (possible values: yes,no)
+         * @param string $track_stats (possible values: yes,no)
          * @return array
          */
         public function delete_recipient($email, $send_goodbye = 'no', $track_stats = 'no') {
@@ -378,7 +382,6 @@
         /**
          * Returns recipientlist informations
          *
-         * @param integer $recipientlist_id Recipientlist id
          * @return array
          */
         public function get_metadata() {
@@ -408,9 +411,11 @@
          * Api call, used by all methods
          *
          * @param string $module Module
-         * @param string $parameters Parameters
+         * @param array $parameters Parameters
          * @param string $method Method
          * @return array
+         * @throws apiclient_io_exception
+         * @throws apiclient_response_exception
          */
         private function api_call($module, $parameters, $method = self::TRANSFER_METHOD_GET) {
 
@@ -451,7 +456,7 @@
                 $header = 'POST ' . $url . ' HTTP/1.0' . "\r\n" .
                           'Host: ' . self::HOST . "\r\n";
 
-                $boundary = md5(microtime() + (rand(0, 1) * 100));
+                $boundary = md5(microtime(true) + (rand(0, 1) * 100));
 
                 $data = '';
 
@@ -578,6 +583,7 @@
          *
          * @param string $xml Xml
          * @return array
+         * @throws apiclient_io_exception
          */
         private function build_result($xml) {
 
@@ -673,7 +679,7 @@
          * @param boolean $zero_allowed True: 0 is allowed, false: 0 is not allowed
          * @param integer $min Minimum value allowed
          * @param integer $max Maximum value allowed
-         * @return void
+         * @throws apiclient_parameter_exception
          */
         public static function check_int(&$value, $name, $zero_allowed = false, $min = NULL, $max = NULL) {
 
@@ -705,7 +711,7 @@
          * @param boolean $empty_allowed True: string can be empty (""), false: must not be empty
          * @param array $allowed_values Array with allowed values
          * @param array $disallowed_values Array with disallowed values
-         * @return void
+         * @throws apiclient_parameter_exception
          */
         public static function check_string($value, $name, $empty_allowed = false, $allowed_values = NULL, $disallowed_values = NULL) {
 
@@ -733,7 +739,7 @@
          * @param array $value Variable
          * @param string $name Name of variable, for error output
          * @param boolean $empty_allowed True: array can be empty, false: must not be empty
-         * @return void
+         * @throws apiclient_parameter_exception
          */
         public static function check_array($value, $name, $empty_allowed = false) {
 
@@ -752,7 +758,7 @@
          *
          * @param boolean $value Variable
          * @param string $name Name of variable, for error output
-         * @return void
+         * @throws apiclient_parameter_exception
          */
         public static function check_bool($value, $name) {
 
@@ -763,5 +769,3 @@
         }
 
     }
-
-?>
