@@ -24,12 +24,12 @@
      *
      * PHP client class for api
      *
-     * @version 1.8.1
+     * @version 1.8.3
      * @license LGPL (http://www.gnu.org/licenses/lgpl.html)
      */
     class apiclient {
 
-        const VERSION = '1.8.2';
+        const VERSION = '1.8.3';
 
         const HOST = 'api.emailsys.net';
 
