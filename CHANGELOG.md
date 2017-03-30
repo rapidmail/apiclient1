@@ -1,3 +1,7 @@
+## [1.8.3] 2017-03-30
+* Improved documentation
+* Fixed a bug where improper use of `microtime()` lead to an E_NOTICE on PHP7 systems
+
 ## [1.8.2] 2017-03-29
 * Update composer.json to support PHP7
 
