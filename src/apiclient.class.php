@@ -456,7 +456,7 @@
                 $header = 'POST ' . $url . ' HTTP/1.0' . "\r\n" .
                           'Host: ' . self::HOST . "\r\n";
 
-                $boundary = md5(microtime() + (rand(0, 1) * 100));
+                $boundary = md5(microtime(true) + (rand(0, 1) * 100));
 
                 $data = '';
 
