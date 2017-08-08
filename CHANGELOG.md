@@ -1,3 +1,6 @@
+## [1.8.4] - 2017-08-08
+* When receiving an error response, use response HTTP statuscode as exception code (thanks @david-zacharias)
+
 ## [1.8.3] 2017-03-30
 * Improved documentation
 * Fixed a bug where improper use of `microtime()` lead to an E_NOTICE on PHP7 systems
