@@ -571,7 +571,7 @@
             $result = $this->build_result($xml);
 
             if ($result['@attributes']['status'] != self::RESPONSE_TYPE_OK) {
-                throw new apiclient_response_exception('(' . $result['@attributes']['status_code'] . ') ' . $result['@attributes']['status_description']);
+                throw new apiclient_response_exception('(' . $result['@attributes']['status_code'] . ') ' . $result['@attributes']['status_description'], (int)$result['@attributes']['status_code']);
             }
 
             return $result;
