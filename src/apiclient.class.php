@@ -589,6 +589,7 @@
 
             utils::check_string($xml, 'xml');
 
+            $xml = preg_replace('/[^\x9\xa\x20-\xD7FF\xE000-\xFFFD]/', '', $xml);
             $xml = @simplexml_load_string($xml, NULL, LIBXML_NOCDATA);
 
             if (!$xml) {
